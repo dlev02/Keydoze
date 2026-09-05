@@ -21,7 +21,7 @@ A small native macOS utility built with SwiftUI and AppKit. Choose what to pause
 
 ## Get started
 
-Keydoze is currently a source preview. A signed, notarized download has not been published. Build locally with **macOS 26+** and an Xcode toolchain supporting **Swift 6.2+**:
+Keydoze is currently a [source preview](https://github.com/dlev02/Keydoze/releases/tag/v0.1.0-preview.1). A signed, notarized download has not been published. Build locally with **macOS 26+** and an Xcode toolchain supporting **Swift 6.2+**:
 
 ```sh
 git clone https://github.com/dlev02/Keydoze.git
@@ -41,7 +41,7 @@ swift test --disable-sandbox          # core and in-memory event-adapter tests
 ./script/build_and_run.sh --release  # local optimized app; no publication
 ```
 
-There are no package dependencies. Development has been checked on Apple silicon with macOS 27 beta; macOS 26 and Intel runtime validation are still open. See [development and previews](docs/DEVELOPMENT.md), [release preparation](docs/RELEASING.md), and [contributing](CONTRIBUTING.md).
+There are no package dependencies. CI passes on macOS 26 with Xcode 26.2, and the native app has been checked on Apple silicon with macOS 27 beta. Interactive macOS 26 and Intel validation are still open. See [development and previews](docs/DEVELOPMENT.md), [release preparation](docs/RELEASING.md), and [contributing](CONTRIBUTING.md).
 
 ## Privacy and security
 

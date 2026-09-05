@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — source preview
+## 0.1.0-preview.1 — 6 September 2026
 
 - Native macOS app for short keyboard and pointing-input cleaning sessions.
 - Scope and duration choices, preparation countdown, automatic release, and early recovery.
