@@ -1,0 +1,41 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swift:
+    name: macOS 26 · Swift 6.2
+    runs-on: macos-26
+    timeout-minutes: 15
+    env:
+      # Xcode 26.2 includes Swift 6.2.3 and is listed on the macOS 26 runner image.
+      # https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+    steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+      - name: Run unit and event-adapter tests
+        # Tests only construct events in memory; no taps or permissions are requested.
+        run: swift test --disable-sandbox
+      - name: Build and validate app bundle
+        run: |
+          ./script/build_and_run.sh --release
+          plutil -lint dist/Keydoze.app/Contents/Info.plist
+          codesign --verify --strict dist/Keydoze.app

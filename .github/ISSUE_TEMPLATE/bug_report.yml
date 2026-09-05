@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a reproducible problem with Keydoze.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a security-sensitive input or privacy failure, follow [SECURITY.md](https://github.com/dlev02/Keydoze/blob/main/SECURITY.md). Do not disclose vulnerability details here.
+        Issues are public. Remove personal information from screenshots and diagnostics.
+  - type: input
+    id: version
+    attributes:
+      label: Keydoze version or commit
+      description: Include whether you used a downloaded app or built it locally.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: macOS and hardware
+      description: macOS version, Mac model, and relevant keyboard, trackpad, or mouse.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the selected input scope, duration, and permission state.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual behavior
+      description: Explain what happened and how input returned to normal, if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Optional screenshots or a minimal, reviewed diagnostic excerpt. Never share typed content or credentials.

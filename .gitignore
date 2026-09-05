@@ -1,0 +1,8 @@
+.build/
+dist/
+.DS_Store
+*.xcuserstate
+.swiftpm/
+docs/evidence/
+docs/design/references/
+docs/design/screenshots/
