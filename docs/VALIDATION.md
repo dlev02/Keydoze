@@ -4,6 +4,8 @@ Recorded 6 September 2026. Compatibility target: macOS 26+. Actual environment: 
 
 ## Observed results
 
+- **Distribution signing — 6 September 2026:** A separate optimized Apple-silicon app was signed with Developer ID Application for team `M379WPVT8A`, hardened runtime, and a secure timestamp. Strict signature verification passed. Apple received notarization submission `5674477f-9b50-4add-b296-5b9705032ebf` on 5 September 2026 at 21:48:59 UTC; its latest observed status is **In Progress**. Notarization acceptance, ticket stapling, Gatekeeper acceptance, and a public binary download are still pending. The stable development app was preserved.
+
 - **User-reported physical laptop test — 6 September 2026:** Drew tested Keydoze on his laptop and confirmed that it fully worked with the hardware. This confirms the overall cleaning workflow on that laptop. The report did not enumerate individual keys, gestures, external devices, or interruption scenarios; the detailed coverage rows below distinguish those unrecorded cases from the overall hardware confirmation.
 - [GitHub CI run 33993359616](https://github.com/dlev02/Keydoze/actions/runs/33993359616) passed on the macOS 26 runner with Xcode 26.2 / Swift 6.2.3: **32 tests in 2 suites**, optimized app packaging, strict code-signature verification, and plist validation. This adds macOS 26 build and test coverage; interactive app and physical-input validation on macOS 26 remain open.
 - Final optimized Apple-silicon bundle built successfully, passed strict code-signature verification and plist validation, includes the Apache 2.0 license and attribution, and reports hardened runtime. Debug live-check, fault-injection, evidence and permission-probe flags were absent from the release executable. It opened on the ready screen with the existing permission grant and no Preview menu. A separate read-only `CGGetEventTapList` check found **0 owned taps / 0 enabled taps** while idle.
@@ -66,6 +68,6 @@ codesign --verify --strict 'dist/Keydoze.app'
 plutil -lint 'dist/Keydoze.app/Contents/Info.plist'
 ```
 
-The local release is development signed, not notarized or published. The repository contains no production service, credentials, network dependency or privileged helper.
+The default local release is development signed. The separate Developer ID distribution copy has been submitted for notarization, which remains pending; no notarized binary has been published. The repository contains no production service, credentials, network dependency or privileged helper.
 
 The final archive checksum is recorded beside the local package in `dist/Keydoze-0.1.0-local-arm64.zip.sha256`. Generated bundles and local diagnostics are excluded from source control.
