@@ -2,12 +2,14 @@
 
 ## Current distribution status
 
-On 6 September 2026, the separate distribution copy was signed with **Developer ID Application: Benjamin Levinson (M379WPVT8A)**, hardened runtime, and a secure timestamp. Strict signature verification passed. Apple received submission `5674477f-9b50-4add-b296-5b9705032ebf`; its latest observed status is **In Progress**. A notarized binary download has not yet been published.
+On 6 September 2026, the separate distribution copy was signed with **Developer ID Application: Benjamin Levinson (M379WPVT8A)**, hardened runtime, and a secure timestamp. Strict signature verification passed. The compact About window is included in version 0.1.0 build 2. Apple received submission `1b3d5b85-951a-4049-98cf-ab8d2cf72ff4`; its latest observed status is **In Progress**. A notarized binary download has not yet been published.
+
+The earlier build 1 submission is superseded; release only build 2 from `dist/distribution-build2/Keydoze.app`.
 
 The existing `asc` Keychain authentication worked; no credentials are stored in this repository. Check this submission before uploading another:
 
 ```sh
-asc notarization status --id 5674477f-9b50-4add-b296-5b9705032ebf --output json
+asc notarization status --id 1b3d5b85-951a-4049-98cf-ab8d2cf72ff4 --output json
 ```
 
 After Apple reports **Accepted**, staple and validate the ticket, verify Gatekeeper acceptance, and package that stapled app for the public release. If Apple rejects it, inspect `asc notarization log --id SUBMISSION_ID` and resolve the reported issue first.

@@ -3,6 +3,7 @@ import ApplicationServices
 
 @main
 struct KeydozeApp: App {
+    @Environment(\.openWindow) private var openWindow
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @State private var model = SessionModel()
     init() {
@@ -34,6 +35,9 @@ struct KeydozeApp: App {
         // native close/minimize controls remain available to macOS and Accessibility.
         .windowToolbarStyle(.unifiedCompact)
         .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Keydoze") { openWindow(id: "about") }
+            }
             CommandGroup(replacing: .newItem) { }
             CommandGroup(replacing: .help) {
                 Button("How Keydoze Works") { model.showCoverage = true }.disabled(model.running)
@@ -50,6 +54,13 @@ struct KeydozeApp: App {
             }
             #endif
         }
+
+        Window("About Keydoze", id: "about") {
+            AboutView()
+        }
+        .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
+        .defaultPosition(.center)
     }
 }
 

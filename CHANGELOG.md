@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Replace the scrolling About credits with a compact native window, concise privacy text, source and license links, and a single creator credit (0.1.0 build 2).
+
 ## 0.1.0-preview.1 — 6 September 2026
 
 - Native macOS app for short keyboard and pointing-input cleaning sessions.
