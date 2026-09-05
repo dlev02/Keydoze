@@ -4,6 +4,7 @@ Recorded 6 September 2026. Compatibility target: macOS 26+. Actual environment: 
 
 ## Observed results
 
+- **User-reported physical laptop test — 6 September 2026:** Drew tested Keydoze on his laptop and confirmed that it fully worked with the hardware. This confirms the overall cleaning workflow on that laptop. The report did not enumerate individual keys, gestures, external devices, or interruption scenarios; the detailed coverage rows below distinguish those unrecorded cases from the overall hardware confirmation.
 - [GitHub CI run 33993359616](https://github.com/dlev02/Keydoze/actions/runs/33993359616) passed on the macOS 26 runner with Xcode 26.2 / Swift 6.2.3: **32 tests in 2 suites**, optimized app packaging, strict code-signature verification, and plist validation. This adds macOS 26 build and test coverage; interactive app and physical-input validation on macOS 26 remain open.
 - Final optimized Apple-silicon bundle built successfully, passed strict code-signature verification and plist validation, includes the Apache 2.0 license and attribution, and reports hardened runtime. Debug live-check, fault-injection, evidence and permission-probe flags were absent from the release executable. It opened on the ready screen with the existing permission grant and no Preview menu. A separate read-only `CGGetEventTapList` check found **0 owned taps / 0 enabled taps** while idle.
 - **32 tests passed: 22 core and 10 macOS adapter tests**, including parameterized cases. Coverage includes deadlines, scope selection, both-Shift recognition/cancellation, simultaneous/repeated input, held controls, arming limits, permission/tap failures, interruption, no automatic restart and callback-only deadline/recovery enforcement. Adapter tests construct real CGEvents and convertible NSEvents in memory without posting input or installing taps. Their constructors need WindowServer access: the shell sandbox stalled that connection; execution outside that sandbox passed.
@@ -31,10 +32,10 @@ The app exposes headings, selected choices, countdown values and recovery progre
 
 | Behavior | Current evidence / limit |
 | --- | --- |
-| Ordinary keyboard, repeat, simultaneous input | Core + adapter tests; real synthetic Quartz suppression passed. Physical keys untested. |
-| Left/right Shift recovery | Distinct device bits and hold/cancel logic tested. Physical two-key hold untested. |
+| Ordinary keyboard, repeat, simultaneous input | Core + adapter tests; real synthetic Quartz suppression passed. Overall laptop hardware workflow confirmed by the user; individual key cases were not separately recorded. |
+| Left/right Shift recovery | Distinct device bits and hold/cancel logic tested. Overall hardware workflow confirmed; the two-key hold was not separately itemized in the report. |
 | Other modifiers / Caps Lock | Core/adapter handling; Caps Lock treated as a latch. Physical modifier/latch effects untested. |
-| Motion, click, drag, scroll | Real synthetic stream suppression passed. Physical trackpad/mouse untested. |
+| Motion, click, drag, scroll | Real synthetic stream suppression passed. Overall laptop hardware workflow confirmed by the user; pointer actions and external mice were not separately itemized. |
 | Keyboard-only and pointing-only isolation | Core tests and UI checks; physical-device isolation untested. |
 | External keyboard/mouse | Same selected event category by design; no device-specific isolation. Hardware untested. |
 | Fn/Globe, brightness, volume/media | Public convertible events classified, but may be handled before a session tap. Hardware untested; no comprehensive blocking promise. |
@@ -52,7 +53,7 @@ The app exposes headings, selected choices, countdown values and recovery progre
 
 A public session event tap cannot promise that every hardware or system gesture is delivered to it. The current implementation therefore offers an everyday-input guard, with that limitation visible before Start. It does not satisfy an absolute guarantee of “no gestures or system actions.” Extending that guarantee with private APIs, root helpers or persistent system-setting changes was deliberately excluded by the task. For hardware/security controls outside coverage, follow the Mac's own cleaning instructions and power-state precautions; this app cannot substitute for them.
 
-Before public release, use a spare device/account to complete the hardware matrix and failure-injection checks. The smallest primary-device check is one watchdog-supervised eight-second session: ordinary keys and pointer/scroll, followed by a distinct-both-Shift hold. More disruptive system gestures and permission revocation belong in isolation. Record actual observed effects rather than inferring them from the countdown.
+The user has confirmed that the app works on his laptop hardware. Further coverage should focus on individually recording the remaining matrix entries and isolated failure cases, rather than repeating the overall cleaning workflow. More disruptive system gestures and permission revocation belong on a spare device/account. Record actual observed effects rather than inferring them from the countdown.
 
 ## Reproduce automated checks
 

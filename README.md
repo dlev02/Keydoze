@@ -31,7 +31,7 @@ cd Keydoze
 
 Allow Accessibility when requested, select a scope and duration, then choose **Start cleaning**. Release keys and buttons and lift your hands during the three-second preparation period. Input returns after the timer and a brief release check. Keyboard-only mode also offers **Finish now**. After a session, choose **Clean again** to return to setup; use the standard window close button or ⌘Q to quit.
 
-Keydoze pauses events delivered to the public macOS input stream. Some system gestures and hardware keys can still respond; Touch ID, power, and security controls are outside its coverage. Physical-device coverage remains under validation. See the [tested behavior and remaining limits](docs/VALIDATION.md).
+Keydoze pauses events delivered to the public macOS input stream. Some system gestures and hardware keys can still respond; Touch ID, power, and security controls are outside its coverage. The cleaning workflow has been tested successfully on the developer’s laptop hardware; broader device and edge-case coverage remains open. See the [tested behavior and remaining limits](docs/VALIDATION.md).
 
 ## Development
 

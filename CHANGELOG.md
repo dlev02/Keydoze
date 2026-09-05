@@ -9,4 +9,4 @@
 - Simplified access setup, larger duration choices, and short native selection and screen transitions.
 - Offline operation with local preferences only.
 
-No notarized binary release has been published. See [validation](docs/VALIDATION.md) for the current evidence and remaining hardware coverage.
+The developer confirmed a successful physical laptop test on 6 September 2026. No notarized binary release has been published. See [validation](docs/VALIDATION.md) for the current evidence and remaining hardware coverage.
