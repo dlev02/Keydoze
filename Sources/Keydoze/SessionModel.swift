@@ -32,13 +32,14 @@ final class SessionModel {
     @ObservationIgnored private var simulatedSession: Session?
     @ObservationIgnored private var simulatedNow: Double = 0
     @ObservationIgnored private var frozenSimulation = false
+    @ObservationIgnored private var cancelledPreparation = false
     #if DEBUG
     @ObservationIgnored private var lastArmingEvidence = -1
     #endif
 
-    init() {
+    init(simulation: Bool = false) {
         #if DEBUG
-        isSimulation = ProcessInfo.processInfo.arguments.contains("--simulate")
+        isSimulation = simulation || ProcessInfo.processInfo.arguments.contains("--simulate")
         #else
         isSimulation = false
         #endif
@@ -152,6 +153,7 @@ final class SessionModel {
     func revealApp() { NSWorkspace.shared.activateFileViewerSelecting([Bundle.main.bundleURL]) }
 
     func cancel() {
+        cancelledPreparation = screen == .arming
         if isSimulation {
             simulatedSession?.requestStop(now: simulatedNow)
             if frozenSimulation { reset() }
@@ -175,11 +177,11 @@ final class SessionModel {
         engine?.interrupt(.cancelled); engine = nil
         stopUITimer()
         simulatedSession = nil; frozenSimulation = false
-        screen = .ready; recoveryProgress = 0
+        screen = .ready; recoveryProgress = 0; cancelledPreparation = false
         refreshPermission()
     }
 
-    private func refreshSession() {
+    func refreshSession() {
         let session: Session
         let now: Double
         #if DEBUG
@@ -218,7 +220,9 @@ final class SessionModel {
         case .active: screen = .active
         case .releasing: screen = .releasing
         case let .finished(reason):
-            screen = .finished(reason)
+            // Wait for the engine to finish cleanup before returning to setup.
+            screen = cancelledPreparation && reason == .cancelled ? .ready : .finished(reason)
+            cancelledPreparation = false
             stopUITimer()
             engine = nil; simulatedSession = nil
         }
@@ -249,7 +253,7 @@ final class SessionModel {
     }
 
     private func announce(_ text: String) {
-        guard let window = NSApp.mainWindow else { return }
+        guard let app = NSApp, let window = app.mainWindow else { return }
         NSAccessibility.post(element: window, notification: .announcementRequested,
                              userInfo: [.announcement: text, .priority: NSAccessibilityPriorityLevel.high.rawValue])
     }

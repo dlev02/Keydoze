@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Clarify the combined input icon, start action, duration layout, spacing, and help affordance (0.1.0 build 3).
+- Return cancelled preparation countdowns directly to setup.
+- Explain the keyboard and trackpad cleaning purpose in the help sheet.
+
 - Replace the scrolling About credits with a compact native window, concise privacy text, source and license links, and a single creator credit (0.1.0 build 2).
 
 ## 0.1.0-preview.1 — 6 September 2026

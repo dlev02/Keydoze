@@ -76,7 +76,8 @@ struct MainView: View {
     private var ready: some View {
         VStack(spacing: 0) {
             DeviceArtwork(scope: model.scope, palette: palette, highContrast: contrast == .increased, reduceMotion: reduceMotion)
-                .frame(height: 128)
+                .frame(height: 116)
+                .offset(x: -8)
                 .contentShape(Rectangle()).gesture(WindowDragGesture())
                 .allowsWindowActivationEvents(true)
             Text("Clean your Mac.")
@@ -84,15 +85,14 @@ struct MainView: View {
                 .accessibilityAddTraits(.isHeader).padding(.top, 12)
             VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 8) {
-                    scopeChoice(.both, title: "Both", symbol: "rectangle.on.rectangle")
+                    scopeChoice(.both, title: "Both", symbol: "keyboard")
                     scopeChoice(.keyboard, title: "Keyboard", symbol: "keyboard")
                     scopeChoice(.pointing, title: "Trackpad & mouse", symbol: "computermouse")
                 }.accessibilityElement(children: .contain).accessibilityLabel("Input to pause")
                     .accessibilityIdentifier("inputScope")
-                HStack {
-                    Label("Duration", systemImage: "timer").font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.secondary)
-                    Spacer(minLength: 12)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Duration").font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.secondary).padding(.leading, 4)
                     HStack(spacing: 4) {
                         durationChoice(30, title: "30 sec")
                         durationChoice(60, title: "1 min")
@@ -100,20 +100,21 @@ struct MainView: View {
                     }
                     .padding(4)
                     .background(Color.primary.opacity(0.035), in: Capsule())
-                    .frame(width: 240)
                     .accessibilityElement(children: .contain).accessibilityLabel("Duration")
                     .accessibilityIdentifier("durationPicker")
                 }.padding(.top, 8)
-            }.padding(.top, 25)
-            Spacer(minLength: 21)
-            primaryButton(model.permitted ? "Start cleaning" : "Set up Keydoze", symbol: "pause.fill") { model.begin() }
+            }.padding(.top, 22)
+            Spacer(minLength: 28)
+            primaryButton(model.permitted ? "Start cleaning" : "Set up Keydoze", symbol: model.permitted ? "play.fill" : "lock.open") { model.begin() }
                 .accessibilityIdentifier("startButton")
+            Text("Some system controls may still respond.")
+                .font(.system(size: 11)).foregroundStyle(.secondary).padding(.top, 12)
             Button { model.showCoverage = true } label: {
-                Text("Some system controls may still respond.")
-                    .font(.system(size: 11)).underline()
+                Label("What Keydoze does", systemImage: "info.circle")
+                    .font(.system(size: 11))
                     .frame(minHeight: 24)
             }
-            .buttonStyle(.plain).foregroundStyle(.secondary).padding(.top, 12)
+            .buttonStyle(.plain).foregroundStyle(.secondary).padding(.top, 2)
             .help("Learn which input Keydoze can pause")
             .accessibilityIdentifier("coverageButton")
         }
@@ -125,8 +126,14 @@ struct MainView: View {
         let selected = model.scope == scope
         return Button { model.scope = scope } label: {
             VStack(spacing: 8) {
-                Image(systemName: symbol).font(.system(size: 19, weight: .regular))
-                    .symbolRenderingMode(.hierarchical)
+                HStack(spacing: 3) {
+                    Image(systemName: symbol)
+                    if scope == .both { Image(systemName: "computermouse").font(.system(size: 16)) }
+                }
+                .font(.system(size: 19, weight: .regular))
+                .symbolRenderingMode(.hierarchical)
+                .frame(height: 23)
+                .accessibilityHidden(true)
                 Text(title).font(.system(size: 11, weight: selected ? .semibold : .medium))
                     .lineLimit(1).minimumScaleFactor(0.9)
             }
@@ -348,10 +355,11 @@ struct MainView: View {
 
     private var coverageSheet: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("What Keydoze pauses")
+            Text("What Keydoze does")
                 .font(.system(size: 24, weight: .semibold, design: .rounded))
                 .tracking(-0.5).accessibilityAddTraits(.isHeader)
-            Text("Everyday keys, clicks, movement, and scrolling—including external keyboards and mice.")
+            Text("Made for a small, familiar annoyance: wiping your MacBook’s keyboard and trackpad without accidental typing or clicks. Choose what to pause, set a timer, and give your Mac a clean.")
+            Text("Keydoze pauses everyday keys, clicks, movement, and scrolling—including external keyboards and mice.")
             Text("Some system gestures, Fn/Globe, and media keys may still respond. Touch ID, power, and security controls stay outside Keydoze’s coverage.")
             Text("Input returns automatically. Hold both Shift keys for 2 seconds to finish early, or press Escape in trackpad-and-mouse mode. Release held keys and buttons when prompted; this takes at most 2 extra seconds.")
             Text("Keydoze is a cleaning aid, not a security lock. Interrupted sessions never restart automatically.")
