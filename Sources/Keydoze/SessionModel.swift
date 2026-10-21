@@ -98,6 +98,10 @@ final class SessionModel {
         let seconds = Int(ceil(max(0, remaining)))
         return String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
+    var timeSpoken: String {
+        let seconds = Int(ceil(max(0, remaining)))
+        return seconds == 1 ? "1 second" : "\(seconds) seconds"
+    }
 
     func refreshPermission() {
         permitted = isSimulation ? permitted : AXIsProcessTrusted()

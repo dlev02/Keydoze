@@ -184,7 +184,7 @@ struct MainView: View {
                         .contentTransition(reduceMotion ? .identity : .numericText(countsDown: true))
                         .animation(reduceMotion ? nil : KeydozeMotion.digits, value: model.timeLabel)
                         .accessibilityLabel(model.screen == .arming ? "Preparing" : "Time remaining")
-                        .accessibilityValue("\(Int(ceil(model.remaining))) seconds")
+                        .accessibilityValue(model.timeSpoken)
                         .accessibilityIdentifier("countdown")
                     Text(model.screen == .arming ? "until input pauses" : model.screen == .releasing ? "finishing" : "until input returns")
                         .font(.system(size: 12)).foregroundStyle(.secondary)
