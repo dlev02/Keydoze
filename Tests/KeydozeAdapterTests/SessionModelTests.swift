@@ -36,4 +36,19 @@ struct SessionModelTests {
         #expect(model.screen == .finished(.cancelled))
         model.reset()
     }
+
+    @Test("Spoken time uses the singular for one second")
+    func spokenTime() {
+        let model = SessionModel(simulation: true)
+        model.remaining = 1
+        #expect(model.timeSpoken == "1 second")
+        model.remaining = 0.4
+        #expect(model.timeSpoken == "1 second")
+        model.remaining = 0
+        #expect(model.timeSpoken == "0 seconds")
+        model.remaining = 2
+        #expect(model.timeSpoken == "2 seconds")
+        model.remaining = 48
+        #expect(model.timeSpoken == "48 seconds")
+    }
 }
