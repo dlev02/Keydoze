@@ -2,7 +2,7 @@
 
 ## Current distribution status
 
-On 21 October 2026, version 0.1.0 build 3 was signed with **Developer ID Application: Brandon Stellina (7BVMD7TA97)**, hardened runtime, and a secure timestamp, then accepted by Apple notarization (submission `00f9d568-15b8-4d7a-bd2e-89b8443a1925`). The ticket was stapled and validated, and Gatekeeper reports `source=Notarized Developer ID`. The notarized ZIP is published as the `v0.1.0` GitHub release (SHA-256 `56ca0ca17a17605724b0de926351a42b23c225abd594b1248e55dc46e59321e3`).
+On 21 October 2026, version 0.1.0 build 3 was signed with **Developer ID Application: Brandon Stellina (7BVMD7TA97)**, hardened runtime, and a secure timestamp, then accepted by Apple notarization (submission `00f9d568-15b8-4d7a-bd2e-89b8443a1925`). The ticket was stapled and validated, and Gatekeeper reports `source=Notarized Developer ID`. The notarized app is published in the `v0.1.0` GitHub release as a DMG with a drag-to-Applications window (SHA-256 `e9a53f3a9174363823e9494d178624a4083c54d122fbdabf098f8ee4597127bf`, notarization submission `679c1732-cae7-4837-a395-7ebc9cd72062`) and as a ZIP (SHA-256 `56ca0ca17a17605724b0de926351a42b23c225abd594b1248e55dc46e59321e3`).
 
 Earlier submissions under the previous team (`M379WPVT8A`, whose Developer ID certificate was revoked) are superseded. Notarization uses an App Store Connect team API key stored in the system keychain through `asc auth login`; no credentials are stored in this repository. To check a submission:
 
@@ -30,6 +30,8 @@ xcrun stapler validate 'dist/distribution/Keydoze.app'
 spctl --assess --type execute --verbose 'dist/distribution/Keydoze.app'
 ditto -c -k --keepParent 'dist/distribution/Keydoze.app' dist/Keydoze.zip
 ```
+
+For a drag-to-Applications installer, stage the stapled app beside a symlink to `/Applications`, create a read-write image with `hdiutil create -srcfolder`, arrange the icons in Finder (icon view, app left, Applications right), convert it with `hdiutil convert -format UDZO`, then `codesign --timestamp`, `asc notarization submit --wait`, and `xcrun stapler staple` the DMG itself.
 
 ## Source publication checklist
 

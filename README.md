@@ -21,7 +21,7 @@ A small native macOS utility built with SwiftUI and AppKit. Choose what to pause
 
 ## Get started
 
-Download the notarized app from the [latest release](https://github.com/dlev02/Keydoze/releases/latest): open the ZIP, move **Keydoze** to Applications, and open it. It is Developer ID signed, notarized by Apple, and runs on Apple silicon Macs with **macOS 26+**. To build from source instead, you need an Xcode toolchain supporting **Swift 6.2+**:
+Download the notarized **Keydoze-0.1.0.dmg** from the [latest release](https://github.com/dlev02/Keydoze/releases/latest), open it, and drag **Keydoze** onto **Applications**. It is Developer ID signed, notarized by Apple, and runs on Apple silicon Macs with **macOS 26+**. A ZIP of the same app is also attached. To build from source instead, you need an Xcode toolchain supporting **Swift 6.2+**:
 
 ```sh
 git clone https://github.com/dlev02/Keydoze.git
