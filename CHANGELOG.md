@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 — 21 October 2026
+
+- First notarized public release: Developer ID signed, accepted by Apple notarization, and stapled for Apple silicon Macs on macOS 26+.
 
 - Clarify the combined input icon, start action, duration layout, spacing, and help affordance (0.1.0 build 3).
 - Return cancelled preparation countdowns directly to setup.
@@ -17,4 +19,4 @@
 - Simplified access setup, larger duration choices, and short native selection and screen transitions.
 - Offline operation with local preferences only.
 
-The developer confirmed a successful physical laptop test on 6 September 2026. The distribution build is Developer ID signed and submitted for Apple notarization. Approval and the downloadable release are pending. See [validation](docs/VALIDATION.md) for the current evidence and remaining hardware coverage.
+The developer confirmed a successful physical laptop test on 6 September 2026. See [validation](docs/VALIDATION.md) for the current evidence and remaining hardware coverage.
