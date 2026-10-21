@@ -2,14 +2,12 @@
 
 ## Current distribution status
 
-On 6 September 2026, the separate distribution copy was signed with **Developer ID Application: Benjamin Levinson (M379WPVT8A)**, hardened runtime, and a secure timestamp. Strict signature verification passed. The refined cleaning setup, cancellation navigation, purpose copy, and compact About window are included in version 0.1.0 build 3. Apple received submission `bcd264b6-4699-4f4a-8907-aac94149c989`; its latest observed status is **In Progress**. A notarized binary download has not yet been published.
+On 21 October 2026, version 0.1.0 build 3 was signed with **Developer ID Application: Brandon Stellina (7BVMD7TA97)**, hardened runtime, and a secure timestamp, then accepted by Apple notarization (submission `00f9d568-15b8-4d7a-bd2e-89b8443a1925`). The ticket was stapled and validated, and Gatekeeper reports `source=Notarized Developer ID`. The notarized ZIP is published as the `v0.1.0` GitHub release (SHA-256 `56ca0ca17a17605724b0de926351a42b23c225abd594b1248e55dc46e59321e3`).
 
-The earlier build 1 and build 2 submissions are superseded; release only build 3 from `dist/distribution-build3/Keydoze.app`. Build 2 was still In Progress when build 3 was submitted.
-
-The existing `asc` Keychain authentication worked; no credentials are stored in this repository. Check this submission before uploading another:
+Earlier submissions under the previous team (`M379WPVT8A`, whose Developer ID certificate was revoked) are superseded. Notarization uses an App Store Connect team API key stored in the system keychain through `asc auth login`; no credentials are stored in this repository. To check a submission:
 
 ```sh
-asc notarization status --id bcd264b6-4699-4f4a-8907-aac94149c989 --output json
+asc notarization status --id 00f9d568-15b8-4d7a-bd2e-89b8443a1925 --output json
 ```
 
 After Apple reports **Accepted**, staple and validate the ticket, verify Gatekeeper acceptance, and package that stapled app for the public release. If Apple rejects it, inspect `asc notarization log --id SUBMISSION_ID` and resolve the reported issue first.
