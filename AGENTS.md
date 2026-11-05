@@ -16,7 +16,7 @@ Permission identity: the bundle ID `app.cleanmode.mac` and a consistent Apple De
 
 Releases: version and build live only in `Resources/Info.plist` and are bumped by hand; also update CHANGELOG.md and the README download name. Distribution is a separate Developer ID copy (team 7BVMD7TA97), notarized with `asc` from the keychain, never the development bundle; follow [docs/RELEASING.md](docs/RELEASING.md). 0.1.0 shipped 2026-10-21 as a notarized DMG and ZIP. Evidence and limits are in [docs/VALIDATION.md](docs/VALIDATION.md).
 
-New GitHub issues fire the "Bug report to draft PR" Claude routine through `.github/workflows/claude-issue-fix.yml` (3 per day; the `claude-fix` label re-fires it).
+New GitHub issues fire the "Bug report to draft PR" routine through `.github/workflows/issue-fix.yml` (3 per day; the `fix-this` label re-fires it).
 
 The engine owns event filtering and deadlines off the main thread. The deterministic core is in KeydozeCore. Never log typed content or raw events, replay blocked events, automatically restart an interrupted session, or request extra privacy permissions by habit. Idle means no event taps.
 
