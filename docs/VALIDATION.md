@@ -32,7 +32,9 @@ Recorded 5 November 2026, on Apple silicon with macOS 27. Checks used throwaway 
 - **Relaunch, with a temporary test build that left the window clickable:** choosing **Install and Relaunch** during a session changed nothing for the 8 seconds observed. The relaunch and the new version came as soon as the session ended.
 - **Session, real tap:** one keyboard-only `--live-check` session with the external watchdog armed, tap installed from 5.4 s to 13.65 s. An update response arrived during it. No Sparkle window appeared, the process did not change, and the session ended normally with `timedOut` and no tap.
 
-Not tested: an update while offline or on a slow network beyond a delayed feed, a copy in a folder the user can't write to, and quarantined or translocated copies.
+- **Run from a disk image:** a copy opened from a read-only volume, with an update available, offered no update and logged that it can't update from a read-only location.
+
+Not tested: an update while offline or on a slow network beyond a delayed feed, a copy in a folder the user can't write to, and a translocated copy.
 
 ## UI checks on the packaged native app
 
