@@ -2,12 +2,12 @@
 
 ## Current distribution status
 
-On 21 October 2026, version 0.1.0 build 3 was signed with **Developer ID Application: Brandon Stellina (7BVMD7TA97)**, hardened runtime, and a secure timestamp, then accepted by Apple notarization (submission `00f9d568-15b8-4d7a-bd2e-89b8443a1925`). The ticket was stapled and validated, and Gatekeeper reports `source=Notarized Developer ID`. The notarized app is published in the `v0.1.0` GitHub release as a DMG with a drag-to-Applications window (SHA-256 `e9a53f3a9174363823e9494d178624a4083c54d122fbdabf098f8ee4597127bf`, notarization submission `679c1732-cae7-4837-a395-7ebc9cd72062`) and as a ZIP (SHA-256 `56ca0ca17a17605724b0de926351a42b23c225abd594b1248e55dc46e59321e3`).
+On 5 November 2026, version 0.2.0 build 4 was published as the `v0.2.0` GitHub release from commit `bdea69d`. It is signed with **Developer ID Application: Brandon Stellina (7BVMD7TA97)**, hardened runtime, and secure timestamps, including Sparkle's helpers. Apple accepted the app (submission `2b4a9fbe-64a7-41ae-8d33-2aaf835e95c2`) and the DMG (submission `cc82d4a3-333e-497c-aa60-9afcdc642b87`). Both tickets are stapled, and Gatekeeper reports `source=Notarized Developer ID`. Checksums are attached to the release: DMG SHA-256 `d7d0deae9a1afb359d2903ffcb72798bbb0e2fa31a6e5c5100949d2e9ba42888`, ZIP SHA-256 `a6f03b52a5b7a659001568cf3a8496dcdddc3cba9e41eaf959bca2f33c99bbb4`.
 
 Earlier submissions under the previous team (`M379WPVT8A`, whose Developer ID certificate was revoked) are superseded. Notarization uses an App Store Connect team API key stored in the system keychain through `asc auth login`; no credentials are stored in this repository. To check a submission:
 
 ```sh
-asc notarization status --id 00f9d568-15b8-4d7a-bd2e-89b8443a1925 --output json
+asc notarization status --id 2b4a9fbe-64a7-41ae-8d33-2aaf835e95c2 --output json
 ```
 
 After Apple reports **Accepted**, staple and validate the ticket, verify Gatekeeper acceptance, and package that stapled app for the public release. If Apple rejects it, inspect `asc notarization log --id SUBMISSION_ID` and resolve the reported issue first.

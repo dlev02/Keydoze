@@ -9,7 +9,7 @@ Keydoze has no accounts, advertising, analytics, or remote logging. Cleaning ses
 Keydoze uses [Sparkle](https://sparkle-project.org), an open-source update framework, to keep itself current.
 
 - **When:** when you open Keydoze if the last check was more than a day ago, then once a day while it stays open. No check starts during a cleaning session.
-- **What it requests:** one file, `appcast.xml`, from Keydoze's [GitHub releases](https://github.com/dlev02/Keydoze/releases). It downloads an update only after you choose **Install Update**.
+- **What it requests:** one file, `appcast.xml`, from Keydoze's [GitHub releases](https://github.com/dlev02/Keydoze/releases). It downloads an update only after you choose **Install Update**. Both come from `github.com`, which redirects to `release-assets.githubusercontent.com`. If you use a firewall app, these are the hosts to allow.
 - **What GitHub can see:** as with any web request, your IP address and the time, plus the app's name and version and Sparkle's version (for example `Keydoze/0.2.0 Sparkle/2.10.1`) and your Mac's language preference. GitHub handles this under [its privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
 - **What is not sent:** typed input, input events, your session history, device identifiers, or a hardware or system profile.
 - **What the developer can see:** GitHub shows repository owners a running total of downloads for each release file. Checks add to the total for `appcast.xml`. It does not show who made them.
