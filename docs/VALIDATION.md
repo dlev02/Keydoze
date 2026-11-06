@@ -20,6 +20,22 @@ Recorded 6 September 2026. Compatibility target: macOS 26+. Actual environment: 
 
 Local debug evidence is under ignored `docs/evidence/`; it contains lifecycle state, permission booleans and aggregate results only. Older completion records used a nil-engine fallback for the tap field; only the corrected `live-10` snapshot is cited as direct completion evidence.
 
+## Updates (Sparkle)
+
+Recorded 5 November 2026, on Apple silicon with macOS 27. Checks used throwaway Developer ID signed copies, a throwaway Ed25519 key and a local feed. Sparkle's `SU*` defaults were removed afterwards.
+
+- **Full update:** a 0.1.8 copy found 0.1.9 at launch, showed the release notes, then on **Install Update** and **Install and Relaunch** downloaded, verified the EdDSA signature, replaced itself and relaunched as 0.1.9 under a new process, with a valid signature.
+- **What was sent:** the local server recorded `GET /appcast.xml` with `User-Agent: Keydoze/0.1.8 Sparkle/2.10.1` and the headers `Host`, `Accept`, `Accept-Language`, `Connection` and `Accept-Encoding`. There was no query string, cookie or system profile.
+- **Refused:** a tampered ZIP (validation failed before unarchiving), a feed and ZIP signed with a different key, a feed edited after signing, and a feed with no signature. In each case the app on disk was unchanged. A refused feed is silent on an automatic check and shows **Update Error!** on a manual one.
+- **Off switch:** with the toggle off and a check overdue, a relaunch made no request at all. **Check for Updates…** still worked.
+- **Sessions, simulated (no tap):** a check that came due during a session made no request. With a response arriving mid-session, the Sparkle window was hidden before it had any size on screen and came back when the session ended. An open update window hid when a session started and returned afterwards. A mid-session "up to date" alert was dismissed and its checking window did not return. The menu command and Settings button were disabled.
+- **Relaunch, with a temporary test build that left the window clickable:** choosing **Install and Relaunch** during a session changed nothing for the 8 seconds observed. The relaunch and the new version came as soon as the session ended.
+- **Session, real tap:** one keyboard-only `--live-check` session with the external watchdog armed, tap installed from 5.4 s to 13.65 s. An update response arrived during it. No Sparkle window appeared, the process did not change, and the session ended normally with `timedOut` and no tap.
+
+- **Run from a disk image:** a copy opened from a read-only volume, with an update available, offered no update and logged that it can't update from a read-only location.
+
+Not tested: an update while offline or on a slow network beyond a delayed feed, a copy in a folder the user can't write to, and a translocated copy.
+
 ## UI checks on the packaged native app
 
 The final Keydoze design was inspected in actual native windows. Light and dark setup, duration selection, permission setup and its troubleshooting disclosure, countdown, pointing-only Escape recovery, keyboard-only Finish now, recovery progress, and coverage help were checked through Accessibility and screenshots. Increased-contrast, reduced-motion, and reduced-transparency preview paths were also exercised. The app's original permission grant survived the rename and the rebuilt app showed Start cleaning without another permission request.
@@ -68,6 +84,6 @@ codesign --verify --strict 'dist/Keydoze.app'
 plutil -lint 'dist/Keydoze.app/Contents/Info.plist'
 ```
 
-The default local release is development signed. The separate Developer ID distribution copy is notarized and stapled and is published as the `v0.1.0` release. The repository contains no production service, credentials, network dependency or privileged helper.
+The default local release is development signed. The separate Developer ID distribution copy is notarized and stapled, and each published release records that in [RELEASING.md](RELEASING.md). The repository contains no production service, credentials or privileged helper. The only network use is Sparkle's update checks and downloads.
 
 The final archive checksum is recorded beside the local package in `dist/Keydoze-0.1.0-local-arm64.zip.sha256`. Generated bundles and local diagnostics are excluded from source control.

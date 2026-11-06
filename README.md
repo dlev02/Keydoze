@@ -17,11 +17,15 @@ A small native macOS utility built with SwiftUI and AppKit. Choose what to pause
 - **Short sessions:** 30 seconds, 1 minute, or 2 minutes, with time to lift your hands before input pauses.
 - **Always-visible recovery:** hold both Shift keys for two seconds, or press Escape in pointing-only mode.
 - **Made for Mac:** a continuous native window, light and dark appearances, subtle SwiftUI transitions, and accessible motion and transparency fallbacks.
-- **Completely offline:** no accounts, analytics, advertising, network requests, or saved input.
+- **Private:** no accounts, analytics, advertising, or saved input. Sessions work offline; only update checks use the network, and you can turn them off.
 
 ## Get started
 
-Download the notarized **Keydoze-0.1.0.dmg** from the [latest release](https://github.com/dlev02/Keydoze/releases/latest), open it, and drag **Keydoze** onto **Applications**. It is Developer ID signed, notarized by Apple, and runs on Apple silicon Macs with **macOS 26+**. A ZIP of the same app is also attached. To build from source instead, you need an Xcode toolchain supporting **Swift 6.2+**:
+Download the notarized **Keydoze-0.2.0.dmg** from the [latest release](https://github.com/dlev02/Keydoze/releases/latest), open it, and drag **Keydoze** onto **Applications**. It is Developer ID signed, notarized by Apple, and runs on Apple silicon Macs with **macOS 26+**. A ZIP of the same app is also attached.
+
+Keydoze keeps itself up to date from there: it checks GitHub once a day and asks before installing. Updates are signed and never start or relaunch during a cleaning session. To turn automatic checks off, choose **Keydoze > Settings…**; **Keydoze > Check for Updates…** always works. Anyone on 0.1.0 needs this one download by hand, because that version has no updater.
+
+To build from source instead, you need an Xcode toolchain supporting **Swift 6.2+**:
 
 ```sh
 git clone https://github.com/dlev02/Keydoze.git
@@ -41,14 +45,14 @@ swift test --disable-sandbox          # core and in-memory event-adapter tests
 ./script/build_and_run.sh --release  # local optimized app; no publication
 ```
 
-There are no package dependencies. CI passes on macOS 26 with Xcode 26.2, and the native app has been checked on Apple silicon with macOS 27 beta. Interactive macOS 26 and Intel validation are still open. See [development and previews](docs/DEVELOPMENT.md), [release preparation](docs/RELEASING.md), and [contributing](CONTRIBUTING.md).
+[Sparkle](https://sparkle-project.org) is the only package dependency. CI passes on macOS 26 with Xcode 26.2, and the native app has been checked on Apple silicon with macOS 27 beta. Interactive macOS 26 and Intel validation are still open. See [development and previews](docs/DEVELOPMENT.md), [release preparation](docs/RELEASING.md), and [contributing](CONTRIBUTING.md).
 
 ## Privacy and security
 
-The app processes input only for a user-started session and removes its event tap when the session ends. It saves only your scope and duration preferences. Read the [privacy policy](PRIVACY.md) or [report a security issue](SECURITY.md).
+The app processes input only for a user-started session and removes its event tap when the session ends. It saves only your scope, duration, and update preferences. Update checks go to GitHub and can be turned off. Read the [privacy policy](PRIVACY.md) or [report a security issue](SECURITY.md).
 
 ## License and credit
 
-Created by **Drew Levinson**. Open source under the [Apache License 2.0](LICENSE).
+Created by **Drew Levinson**. Open source under the [Apache License 2.0](LICENSE). Updates use [Sparkle](https://sparkle-project.org), under its [MIT-style license](Resources/Sparkle-LICENSE.txt).
 
 Forks and modifications are welcome. When distributing a derivative, retain the applicable attribution and [NOTICE](NOTICE), include the license, and identify modified files as required by the license. See [contributing](CONTRIBUTING.md#license-and-attribution) for details.

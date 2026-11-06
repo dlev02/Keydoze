@@ -6,6 +6,7 @@ struct KeydozeApp: App {
     @Environment(\.openWindow) private var openWindow
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @State private var model = SessionModel()
+    @State private var updates = UpdateController()
     init() {
         #if DEBUG
         PermissionProbe.runIfRequested()
@@ -21,6 +22,7 @@ struct KeydozeApp: App {
             }.onAppear {
                 delegate.model = model
                 model.refreshPermission()
+                updates.start(session: model)
                 #if DEBUG
                 if ProcessInfo.processInfo.arguments.contains("--request-permission") {
                     model.showPermission = true
@@ -37,6 +39,8 @@ struct KeydozeApp: App {
         .commands {
             CommandGroup(replacing: .appInfo) {
                 Button("About Keydoze") { openWindow(id: "about") }
+                Button("Check for Updates…") { updates.checkForUpdates() }
+                    .disabled(!updates.canCheck)
             }
             CommandGroup(replacing: .newItem) { }
             CommandGroup(replacing: .help) {
@@ -61,6 +65,10 @@ struct KeydozeApp: App {
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
         .defaultPosition(.center)
+
+        Settings {
+            SettingsView(updates: updates)
+        }
     }
 }
 

@@ -4,7 +4,7 @@ Bug reports, focused fixes, documentation improvements, and careful accessibilit
 
 ## Development
 
-Use macOS 26 or later and Xcode 26 or later with Swift 6.2 or newer. The project has no package dependencies. Read [AGENTS.md](AGENTS.md) for its safety invariants and local commands.
+Use macOS 26 or later and Xcode 26 or later with Swift 6.2 or newer. Sparkle, for updates, is the only package dependency. Read [AGENTS.md](AGENTS.md) for its safety invariants and local commands.
 
 ```sh
 swift test --disable-sandbox
@@ -20,7 +20,7 @@ Live filtering checks are separate from automated tests. Use a short session and
 
 Keep a change focused and preserve unrelated work. Describe the user-visible result, relevant checks, and anything you could not verify. Add regression coverage for meaningful behavior changes; content and link checks are usually enough for documentation. Do not include signing keys, credentials, local diagnostics, personal paths, or generated app bundles.
 
-Keydoze must remain offline and must never store typed content, replay suppressed input, automatically restart an interrupted session, or leave an event tap installed while idle. Changes to those boundaries need explicit discussion.
+Keydoze must not use the network for anything but update checks and downloads, and must never store typed content, replay suppressed input, automatically restart an interrupted session, or leave an event tap installed while idle. Changes to those boundaries need explicit discussion.
 
 ## License and attribution
 

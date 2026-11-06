@@ -1,6 +1,6 @@
 # Security
 
-Keydoze intercepts input only for a user-started cleaning session. A failure that leaves input unavailable, resumes filtering unexpectedly, exposes input content, or bypasses a safety limit is security-sensitive.
+Keydoze intercepts input only for a user-started cleaning session. A failure that leaves input unavailable, resumes filtering unexpectedly, exposes input content, bypasses a safety limit, or lets an unsigned or tampered update install is security-sensitive.
 
 ## Reporting a vulnerability
 

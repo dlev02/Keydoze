@@ -23,7 +23,7 @@ These informed general interface principles. Their artwork is not incorporated o
 - Content is 440 points wide with 32-point side margins and a 510-point content height. These are app-specific optical dimensions, not claimed platform constants.
 - Setup and countdown are centered. Labels and instructions use leading alignment; the recovery group is centered with left-aligned text beside its symbols.
 - Scope choices are 65 points high. Duration choices have a 32-point button within a 40-point capsule track. Primary actions are approximately 42 points high.
-- Scope and duration form one group; a larger gap separates them from Start. Permission help appears only on request. Offline/privacy details live in About and repository documentation.
+- Scope and duration form one group; a larger gap separates them from Start. Permission help appears only on request. Privacy details live in About and repository documentation.
 - The ready screen retains one concise, clickable coverage limit. Active states show the scope, time until input returns, and one recovery instruction. Only safe development previews include the small preview label.
 
 ## Motion

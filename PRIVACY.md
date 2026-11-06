@@ -1,6 +1,23 @@
 # Privacy
 
-Keydoze works offline. It has no accounts, advertising, analytics, remote logging, update checker, or network requests. The app does not collect or send personal data to its developer or any third party.
+Last updated: 5 November 2026
+
+Keydoze has no accounts, advertising, analytics, or remote logging. Cleaning sessions work without a network connection. The only network requests the app makes are update checks and update downloads, both to GitHub. Nothing is sent to the developer.
+
+## Update checks
+
+Keydoze uses [Sparkle](https://sparkle-project.org), an open-source update framework, to keep itself current.
+
+- **When:** when you open Keydoze if the last check was more than a day ago, then once a day while it stays open. No check starts during a cleaning session.
+- **What it requests:** one file, `appcast.xml`, from Keydoze's [GitHub releases](https://github.com/dlev02/Keydoze/releases). It downloads an update only after you choose **Install Update**.
+- **What GitHub can see:** as with any web request, your IP address and the time, plus the app's name and version and Sparkle's version (for example `Keydoze/0.2.0 Sparkle/2.10.1`) and your Mac's language preference. GitHub handles this under [its privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+- **What is not sent:** typed input, input events, your session history, device identifiers, or a hardware or system profile.
+- **What the developer can see:** GitHub shows repository owners a running total of downloads for each release file. Checks add to the total for `appcast.xml`. It does not show who made them.
+- **What stays on your Mac:** the time of the last check, your choices about updates, and a downloaded update until it is installed. These are in Keydoze's local preferences and caches.
+
+To turn automatic checks off, choose **Keydoze > Settings…** and turn off **Check for updates automatically**. Keydoze then makes no network requests unless you choose **Keydoze > Check for Updates…**.
+
+Versions before 0.2.0 have no update checker and make no network requests.
 
 ## Input processing
 
@@ -10,7 +27,7 @@ The event tap is removed when the session ends or is interrupted. There is no in
 
 ## What stays on your Mac
 
-The app saves the selected input scope and session duration in local macOS preferences. It does not sync those preferences or upload them. macOS manages the permission that allows Keydoze to intercept input; granting or revoking that permission happens in System Settings.
+The app saves the selected input scope, session duration, and update settings in local macOS preferences. It does not sync those preferences or upload them. macOS manages the permission that allows Keydoze to intercept input; granting or revoking that permission happens in System Settings.
 
 Development builds include optional diagnostics that are excluded from release builds:
 

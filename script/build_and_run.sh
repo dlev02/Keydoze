@@ -33,8 +33,18 @@ swift build --disable-sandbox -c "$KEYDOZE_CONFIG"
 KEYDOZE_BIN="$(swift build --disable-sandbox -c "$KEYDOZE_CONFIG" --show-bin-path)"
 mkdir -p "$KEYDOZE_APP/Contents/MacOS" "$KEYDOZE_APP/Contents/Resources"
 cp "$KEYDOZE_BIN/Keydoze" "$KEYDOZE_APP/Contents/MacOS/Keydoze"
+# The app finds Sparkle in its own bundle; the linker's absolute build-folder rpath must not ship.
+while read -r KEYDOZE_RPATH; do
+  install_name_tool -delete_rpath "$KEYDOZE_RPATH" "$KEYDOZE_APP/Contents/MacOS/Keydoze"
+done < <(otool -l "$KEYDOZE_APP/Contents/MacOS/Keydoze" | awk '/cmd LC_RPATH/{getline;getline;if($2 ~ /^\//)print $2}')
+install_name_tool -add_rpath @executable_path/../Frameworks "$KEYDOZE_APP/Contents/MacOS/Keydoze"
+# ditto keeps the framework's symlinks. Keydoze isn't sandboxed, so Sparkle's XPC services go unused.
+rm -rf "$KEYDOZE_APP/Contents/Frameworks"
+mkdir -p "$KEYDOZE_APP/Contents/Frameworks"
+ditto "$KEYDOZE_BIN/Sparkle.framework" "$KEYDOZE_APP/Contents/Frameworks/Sparkle.framework"
+rm -rf "$KEYDOZE_APP/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices" "$KEYDOZE_APP/Contents/Frameworks/Sparkle.framework/XPCServices"
 cp Resources/Info.plist "$KEYDOZE_APP/Contents/Info.plist"
-cp LICENSE NOTICE PRIVACY.md Resources/Credits.html "$KEYDOZE_APP/Contents/Resources/"
+cp LICENSE NOTICE PRIVACY.md Resources/Credits.html Resources/Sparkle-LICENSE.txt "$KEYDOZE_APP/Contents/Resources/"
 cp Resources/Keydoze.icns "$KEYDOZE_APP/Contents/Resources/Keydoze.icns"
 KEYDOZE_SIGN_IDENTITY="${KEYDOZE_SIGN_IDENTITY:-}"
 if [[ -z "$KEYDOZE_SIGN_IDENTITY" ]]; then
@@ -42,7 +52,7 @@ if [[ -z "$KEYDOZE_SIGN_IDENTITY" ]]; then
 fi
 KEYDOZE_SIGN_OPTIONS=(--force --sign "${KEYDOZE_SIGN_IDENTITY:--}")
 if [[ "$KEYDOZE_CONFIG" == release ]]; then KEYDOZE_SIGN_OPTIONS+=(--options runtime --timestamp=none); fi
-codesign "${KEYDOZE_SIGN_OPTIONS[@]}" "$KEYDOZE_APP"
+script/sign_app.sh "$KEYDOZE_APP" "${KEYDOZE_SIGN_OPTIONS[@]}"
 codesign --verify --strict "$KEYDOZE_APP"
 case "$KEYDOZE_MODE" in
   --build|--release) echo "$KEYDOZE_APP" ;;
