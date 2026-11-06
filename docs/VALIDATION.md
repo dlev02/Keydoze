@@ -4,6 +4,7 @@ Recorded 6 September 2026. Compatibility target: macOS 26+. Actual environment: 
 
 ## Observed results
 
+- **Distribution signing and notarization — 5 November 2026:** Version 0.2.0 build 4 was built from `bdea69d` by `script/make_release.sh`. Strict verification passed for the app and Sparkle's framework, `Autoupdate` and `Updater.app`, all with Developer ID, hardened runtime and a secure timestamp. Apple accepted the app and DMG, both tickets stapled and validated, and `spctl` reported `Notarized Developer ID`. See [RELEASING.md](RELEASING.md) for submission IDs and checksums.
 - **Distribution signing and notarization — 21 October 2026:** Version 0.1.0 build 3 was signed as a separate optimized Apple-silicon copy with Developer ID Application for team `7BVMD7TA97`, hardened runtime, and a secure timestamp. Strict verification passed. Apple accepted notarization submission `00f9d568-15b8-4d7a-bd2e-89b8443a1925`; the ticket stapled and validated, and `spctl` reported `Notarized Developer ID`. Earlier submissions under team `M379WPVT8A` are superseded. The stable development app was preserved.
 
 - **User-reported physical laptop test — 6 September 2026:** Drew tested Keydoze on his laptop and confirmed that it fully worked with the hardware. This confirms the overall cleaning workflow on that laptop. The report did not enumerate individual keys, gestures, external devices, or interruption scenarios; the detailed coverage rows below distinguish those unrecorded cases from the overall hardware confirmation.
@@ -22,7 +23,7 @@ Local debug evidence is under ignored `docs/evidence/`; it contains lifecycle st
 
 ## Updates (Sparkle)
 
-Recorded 5 November 2026, on Apple silicon with macOS 27. Checks used throwaway Developer ID signed copies, a throwaway Ed25519 key and a local feed. Sparkle's `SU*` defaults were removed afterwards.
+Recorded 5 November 2026, on Apple silicon with macOS 27. Unless noted, checks used throwaway Developer ID signed copies, a throwaway Ed25519 key and a local feed. Sparkle's `SU*` defaults were removed afterwards.
 
 - **Full update:** a 0.1.8 copy found 0.1.9 at launch, showed the release notes, then on **Install Update** and **Install and Relaunch** downloaded, verified the EdDSA signature, replaced itself and relaunched as 0.1.9 under a new process, with a valid signature.
 - **What was sent:** the local server recorded `GET /appcast.xml` with `User-Agent: Keydoze/0.1.8 Sparkle/2.10.1` and the headers `Host`, `Accept`, `Accept-Language`, `Connection` and `Accept-Encoding`. There was no query string, cookie or system profile.
@@ -33,8 +34,10 @@ Recorded 5 November 2026, on Apple silicon with macOS 27. Checks used throwaway 
 - **Session, real tap:** one keyboard-only `--live-check` session with the external watchdog armed, tap installed from 5.4 s to 13.65 s. An update response arrived during it. No Sparkle window appeared, the process did not change, and the session ended normally with `timedOut` and no tap.
 
 - **Run from a disk image:** a copy opened from a read-only volume, with an update available, offered no update and logged that it can't update from a read-only location.
+- **Published release:** the DMG, ZIP, `appcast.xml` and their checksums were downloaded from GitHub into a clean folder and matched. The published appcast's EdDSA signature verified in the app against the real `SUPublicEDKey`. A 0.1.9 test copy with that key then updated to the ZIP downloaded from the release, served from a local feed, and relaunched as a stapled, notarized 0.2.0. The ZIP's signature in that feed matched the published appcast.
+- **Feed unreachable:** on the test Mac a firewall app held the connection to GitHub. The automatic check timed out after 60 seconds with no window, and the app kept working.
 
-Not tested: an update while offline or on a slow network beyond a delayed feed, a copy in a folder the user can't write to, and a translocated copy.
+Not tested: the app itself fetching the feed and the update from GitHub, which that firewall held on the test Mac (`curl` fetched both); a copy in a folder the user can't write to; a translocated copy.
 
 ## UI checks on the packaged native app
 
@@ -86,4 +89,4 @@ plutil -lint 'dist/Keydoze.app/Contents/Info.plist'
 
 The default local release is development signed. The separate Developer ID distribution copy is notarized and stapled, and each published release records that in [RELEASING.md](RELEASING.md). The repository contains no production service, credentials or privileged helper. The only network use is Sparkle's update checks and downloads.
 
-The final archive checksum is recorded beside the local package in `dist/Keydoze-0.1.0-local-arm64.zip.sha256`. Generated bundles and local diagnostics are excluded from source control.
+Release checksums are attached to each GitHub release. Generated bundles and local diagnostics are excluded from source control.
