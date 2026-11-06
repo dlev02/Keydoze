@@ -75,9 +75,9 @@ if strings "$app/Contents/MacOS/Keydoze" | grep -q '/Users/'; then die "the exec
 notarize() {
   local result="$out/notary-${1:t}.json"
   asc notarization submit --file "$1" --wait --output json >"$result" || true
-  local verdict; verdict=$(plutil -extract status raw "$result" 2>/dev/null || print unknown)
+  local verdict; verdict=$(plutil -extract data.attributes.status raw "$result" 2>/dev/null || print unknown)
   if [[ "$verdict" != "Accepted" ]]; then
-    local id; id=$(plutil -extract id raw "$result" 2>/dev/null || print "")
+    local id; id=$(plutil -extract data.id raw "$result" 2>/dev/null || print "")
     [[ -n "$id" ]] && asc notarization log --id "$id" || true
     die "notarizing ${1:t} came back $verdict"
   fi
