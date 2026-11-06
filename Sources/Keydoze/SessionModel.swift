@@ -6,7 +6,13 @@ import KeydozeCore
 @MainActor @Observable
 final class SessionModel {
     enum Screen: Equatable { case ready, arming, active, releasing, finished(EndReason) }
-    var screen: Screen = .ready
+    var screen: Screen = .ready {
+        didSet {
+            let wasRunning = oldValue == .arming || oldValue == .active || oldValue == .releasing
+            if running != wasRunning { onRunningChanged?(running) }
+        }
+    }
+    @ObservationIgnored var onRunningChanged: ((Bool) -> Void)?
     var scope: InputScope {
         didSet { if !isSimulation { UserDefaults.standard.set(scope.rawValue, forKey: "inputScope") } }
     }

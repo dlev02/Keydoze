@@ -8,9 +8,16 @@
 <key>CFBundleIconFile</key><string>Keydoze</string>
 <key>CFBundleIconName</key><string>Keydoze</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.1.0</string>
-<key>CFBundleVersion</key><string>3</string>
+<key>CFBundleShortVersionString</key><string>0.2.0</string>
+<key>CFBundleVersion</key><string>4</string>
 <key>LSMinimumSystemVersion</key><string>26.0</string>
 <key>NSPrincipalClass</key><string>NSApplication</string>
 <key>NSHumanReadableCopyright</key><string>© 2026 Drew Levinson</string>
+<key>SUFeedURL</key><string>https://github.com/dlev02/Keydoze/releases/latest/download/appcast.xml</string>
+<key>SUPublicEDKey</key><string>M268PTj2i8EyBrX9bPcnoDBSsOR9Juuty+psdt345No=</string>
+<key>SUEnableAutomaticChecks</key><true/>
+<key>SUAllowsAutomaticUpdates</key><false/>
+<key>SURequireSignedFeed</key><true/>
+<key>SUVerifyUpdateBeforeExtraction</key><true/>
+<key>SUSignedFeedFailureExpirationInterval</key><real>0</real>
 </dict></plist>
