@@ -8,7 +8,7 @@ List the checks you actually ran and any remaining limitations. For input-filter
 
 ## Contribution checklist
 
-- [ ] The change is focused and preserves the offline and input-safety boundaries.
+- [ ] The change is focused and preserves the privacy and input-safety boundaries, with no network use beyond update checks.
 - [ ] Relevant tests or content checks pass, or limitations are explained above.
 - [ ] No credentials, personal diagnostics, or generated app bundles are included.
 - [ ] I have the right to contribute this work under Apache 2.0; any third-party material is identified.

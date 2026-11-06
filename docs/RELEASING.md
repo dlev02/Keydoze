@@ -14,24 +14,20 @@ After Apple reports **Accepted**, staple and validate the ticket, verify Gatekee
 
 ## Distribution workflow
 
-The default local optimized app/archive is **Apple silicon only** and uses hardened runtime and development signing. It is not notarized by the build script. Sign a separate distribution copy, preserving the stable development app's permission identity:
+1. Set `CFBundleShortVersionString` and a higher `CFBundleVersion` in `Resources/Info.plist`. Sparkle compares `CFBundleVersion`, so a build number that doesn't rise never reaches anyone.
+2. Add the version's section to `CHANGELOG.md`, in the form `## 0.2.0 — date`. Its text becomes the release notes in the update window, so write it for people.
+3. Update the README's download name and merge. Build from the merged `main`, with no local changes.
+4. Run `script/make_release.sh <version>`. It checks this Mac first (Developer ID certificate, Sparkle key, version, build number against the published feed), then builds the Developer ID copy from the inside out with hardened runtime and secure timestamps, notarizes and staples the app, makes the ZIP, makes, signs, notarizes and staples the DMG, signs the appcast, and writes checksums to `dist/release/<version>`. It uploads nothing.
+5. Create the release as a draft, attach the DMG, ZIP, `appcast.xml` and their `.sha256` files, then publish it as the latest. A draft or prerelease is invisible to installed copies.
+6. Download the published `appcast.xml` and DMG and check them against the checksums. Then update the website if the download or privacy copy changed.
 
-```sh
-./script/build_and_run.sh --release
-mkdir -p dist/distribution
-ditto 'dist/Keydoze.app' 'dist/distribution/Keydoze.app'
-codesign --force --options runtime --timestamp --sign 'Developer ID Application: YOUR NAME (TEAMID)' 'dist/distribution/Keydoze.app'
-codesign --verify --strict 'dist/distribution/Keydoze.app'
-ditto -c -k --keepParent 'dist/distribution/Keydoze.app' dist/Keydoze-submission.zip
-asc notarization submit --file dist/Keydoze-submission.zip --wait --output json
-# Continue only when the submission status is Accepted.
-xcrun stapler staple 'dist/distribution/Keydoze.app'
-xcrun stapler validate 'dist/distribution/Keydoze.app'
-spctl --assess --type execute --verbose 'dist/distribution/Keydoze.app'
-ditto -c -k --keepParent 'dist/distribution/Keydoze.app' dist/Keydoze.zip
-```
+Don't publish a later release without `appcast.xml`: installed copies read it from the latest release, and a 404 stops them finding updates. Only the ZIP goes in the appcast. The DMG is for first installs, and its drag-to-Applications window comes from `Resources/DMG/dmg-layout.DS_Store`.
 
-For a drag-to-Applications installer, stage the stapled app beside a symlink to `/Applications`, create a read-write image with `hdiutil create -srcfolder`, arrange the icons in Finder (icon view, app left, Applications right), convert it with `hdiutil convert -format UDZO`, then `codesign --timestamp`, `asc notarization submit --wait`, and `xcrun stapler staple` the DMG itself.
+## Update signing key
+
+Updates are signed with an EdDSA key made by Sparkle's `generate_keys --account keydoze`. The private half is only in the login Keychain and is read by `generate_appcast`; macOS may ask once to allow that. The public half is `SUPublicEDKey` in `Resources/Info.plist`. Don't use Sparkle's default account: that key is another project's.
+
+Back it up once, somewhere safe outside this repository, with `generate_keys --account keydoze -x <file>`, and delete the exported file after storing it. Lose this key and every installed copy needs a download by hand, because `SUSignedFeedFailureExpirationInterval` is 0: nothing falls back to accepting an unsigned feed. Restore with `generate_keys --account keydoze -f <file>`.
 
 ## Source publication checklist
 

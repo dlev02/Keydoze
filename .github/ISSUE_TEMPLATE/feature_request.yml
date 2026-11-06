@@ -13,7 +13,7 @@ body:
     id: proposal
     attributes:
       label: Proposed behavior
-      description: Explain how it would fit a small, offline Mac cleaning utility.
+      description: Explain how it would fit a small, private Mac cleaning utility.
     validations:
       required: true
   - type: textarea
